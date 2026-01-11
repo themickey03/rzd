@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rzd/page/test.dart';
+import 'package:rzd/page/page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: CupertinoColors.white
       ),
       title: 'Поезд 128E',
-      home: TestPage(),
+      home: StationPage(),
     );
   }
 }
