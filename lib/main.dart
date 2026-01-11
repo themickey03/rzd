@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rzd/core/service/localization_service.dart';
 import 'package:rzd/core/service/rzd_service.dart';
-import 'package:rzd/localization/localization.dart';
+import 'package:rzd/core/localization/localization.dart';
 import 'package:rzd/pages/home/home_page.dart';
 import 'package:rzd/pages/train_details/train_details_page.dart';
 
@@ -48,10 +48,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LocalizationService localizationService = context.watch<LocalizationService>();
-    localizationService.setTranslations({
-      Locale("ru", "RU"): ru_RU,
-      Locale("en", "US"): en_US,
-    });
+    localizationService.setTranslations(localizationList);
     return CupertinoApp.router(
       key: Key("app_with_${context.watch<LocalizationService>().currentLocale}"),
       theme: CupertinoThemeData(

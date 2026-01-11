@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
-import 'package:provider/provider.dart';
 import 'package:rzd/core/extension/external_builder.dart';
-import 'package:rzd/core/service/localization_service.dart';
 import 'package:rzd/pages/home/home_page.dart';
 
 class HomeView extends ExternalWidget {
