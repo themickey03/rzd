@@ -12,8 +12,8 @@ class TrainDetailsPage extends StatefulWidget {
   final String? trainDate;
 
   const TrainDetailsPage({
-    this.trainDate,
     this.trainNumber,
+    this.trainDate,
     super.key
   });
 

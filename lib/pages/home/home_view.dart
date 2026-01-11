@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 import 'package:rzd/core/extension/external_builder.dart';
+import 'package:rzd/core/service/localization_service.dart';
 import 'package:rzd/pages/home/home_page.dart';
 
 class HomeView extends ExternalWidget {
@@ -10,10 +14,9 @@ class HomeView extends ExternalWidget {
 
 extension _View on HomePageState {
   Widget build(BuildContext context) {
-    print("!!!!! 3");
     return Column(
       children: [
-        Text("Test"),
+        Text("hello".i18n()),
         CupertinoButton(
           child: Text("Click"),
           onPressed: () => context.go("/details?train=128EJ&date=2026-01-08")
