@@ -1,5 +1,5 @@
 import 'package:custom_accordion/custom_accordion.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rzd/dto/train.dart';
 import 'package:rzd/item/item.dart';
 import 'package:rzd/service/rzd_service.dart';
@@ -51,25 +51,32 @@ class _PageState extends State<StationPage> {
   Widget build(BuildContext context) {
 
     if (dataPast.isEmpty && dataNow.isEmpty) {
-      return Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator()));
+      return Center(child: SizedBox(height: 40, width: 40, child: CupertinoActivityIndicator()));
     }
 
-    return RefreshIndicator(
-      onRefresh: getData,
-      child: ListView(
-        children: [
-          CustomAccordion(
-            title: "История",
-            widgetItems: Column(children: dataPast.map((e) => Item(train: e)).toList()),
-          ),
-          CustomAccordion(
-            title: "В пути",
-            showContent: true,
-            backgroundColor: Colors.white70,
-            widgetItems: Column(children: dataNow.map((e) => Item(train: e)).toList()),
-          ),
-        ],
-      ),
+    return CustomScrollView(
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      slivers: [
+        CupertinoSliverNavigationBar(
+          largeTitle: Container(),
+        ),
+        CupertinoSliverRefreshControl(onRefresh: getData),
+        SliverList.list(
+          children: [
+
+            CustomAccordion(
+              title: "История",
+              widgetItems: Column(children: dataPast.map((e) => Item(train: e)).toList()),
+            ),
+            CustomAccordion(
+              title: "В пути",
+              showContent: true,
+              backgroundColor: CupertinoColors.white.withAlpha(100),
+              widgetItems: Column(children: dataNow.map((e) => Item(train: e)).toList()),
+            ),
+          ]
+        )
+      ],
     );
   }
 }

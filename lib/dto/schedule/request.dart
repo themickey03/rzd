@@ -2,41 +2,41 @@ import 'package:intl/intl.dart';
 
 /// Запрос поездов
 ///
-/// [departure] - [date] отправления или прибытия
+/// [departure] - [date] отправления или прибытия, отправление - true
 ///
 /// [date] - Дата фильтра
 ///
-/// [arrivalId] - Станция отправления
+/// [arrivalId] - Станция прибытия
 ///
-/// [departureId] - Станция прибытия
+/// [departureId] - Станция отправления
 ///
 class ScheduleRequest {
 
   final bool departure;
   final String date;
-  final int arrivalId;
   final int departureId;
+  final int arrivalId;
 
   ScheduleRequest({
-    required this.departure,
+    this.departure = true,
     required this.date,
-    required this.arrivalId,
     required this.departureId,
+    required this.arrivalId,
   });
 
   static dateToText({required DateTime date}) => DateFormat("dd.MM.yyyy").format(date);
 
   @override
   String toString() {
-    return 'ScheduleRequest{departure: $departure, date: $date, arrivalId: $arrivalId, departureId: $departureId}';
+    return 'ScheduleRequest{departure: $departure, date: $date, departureId: $departureId, arrivalId: $arrivalId, }';
   }
 
   Map<String, dynamic> toJson() {
     return {
       "departure": departure,
       "date": date,
-      "stationArrivalId": arrivalId,
       "stationDepartureId": departureId,
+      "stationArrivalId": arrivalId,
     };
   }
 }

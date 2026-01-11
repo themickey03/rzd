@@ -7,12 +7,12 @@ import 'package:rzd/dto/train.dart';
 class RzdService {
 
   Dio dio = Dio();
-  String baseUrl = "https://www.rzd.ru/";
+  String baseUrl = "https://www.rzd.ru";
 
   RzdService();
 
   Stream<List<Train>> getTrainData({required String station, required String date}) {
-    return dio.request("$baseUrl/routemap/source/current/train/$station/departure/$date?useTimeZone=true")
+    return dio.get("$baseUrl/routemap/source/current/train/$station/departure/$date?useTimeZone=true")
       .asStream()
       .map((e) => e.data)
       .map((e) => e["features"])
@@ -21,7 +21,7 @@ class RzdService {
   }
 
   Stream<List<Destination>> getDestinations({required String name}) {
-    return dio.request("$baseUrl/suggests/rstation/?namePart=$name&lang=ru")
+    return dio.get("$baseUrl/suggests/rstation/?namePart=$name&lang=ru")
       .asStream()
       .map((e) => e.data)
       .map((e) => e["data"])
@@ -30,11 +30,11 @@ class RzdService {
   }
 
   Stream<List<ScheduleResponse>> getTrains({required ScheduleRequest request}) {
-    return dio.request("$baseUrl/tt/train/schedule", data: request.toJson())
+    return dio.post("$baseUrl/tt/train/schedule", data: request.toJson())
       .asStream()
       .map((e) => e.data)
-      .map((e) => e["data"])
-      .map((e) => (e as List).map((e) => e["node"]).toList())
+      .map((e) => e["trains"])
+      .map((e) => (e as List).map((e) => e).toList())
       .map((e) => e.map((e) => ScheduleResponse.fromJson(raw: e)).toList());
   }
 }

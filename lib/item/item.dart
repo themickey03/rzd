@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rzd/dto/train.dart';
 
 class Item extends StatefulWidget {
@@ -19,8 +19,7 @@ class _ItemState extends State<Item> {
     bool arrivalShow = arrivalDelay != null && arrivalDelay != 0;
     bool departureShow = departureDelay != null && departureDelay != 0;
 
-    return Card(
-      color: Colors.white,
+    return CupertinoFormRow(
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
@@ -33,7 +32,10 @@ class _ItemState extends State<Item> {
                 fontSize: widget.train.withoutStop != true ? 20 : 16
               )
             ),
-            Divider(),
+            Container(
+              height: 2,
+              color: CupertinoColors.systemGrey,
+            ),
             if (widget.train.withoutStop == true) ...[
               if (widget.train.arrivalDate != null && widget.train.arrivalTime != null) ...[
                 Text("Станция без остановки"),
@@ -61,7 +63,10 @@ class _ItemState extends State<Item> {
               )
             ],
             if (arrivalShow || departureShow) ...[
-              Divider(),
+              Container(
+                height: 2,
+                color: CupertinoColors.systemGrey,
+              ),
             ],
             if (arrivalShow) ...[
               convertNegativeToWord(minute: arrivalDelay, departure: false)
@@ -81,7 +86,7 @@ class _ItemState extends State<Item> {
       children: [
         Text(
           !departure ? "Прибытие" : "Отправление",
-          style: TextStyle(color: Colors.black.withAlpha(100)),
+          style: TextStyle(color: CupertinoColors.black.withAlpha(100)),
         ),
         Text(date),
         Text(
@@ -96,13 +101,13 @@ class _ItemState extends State<Item> {
     if (minute?.isNegative == true) {
       return Text(
         "Опережение ${departure ? "отправления" : "прибытия"}: ${minute?.abs() ?? ""} мин.",
-        style: TextStyle(color: Colors.green.shade300),
+        style: TextStyle(color: CupertinoColors.systemGreen.withAlpha(100)),
       );
     }
 
     return Text(
       "Задежка ${departure ? "отправления" : "прибытия"}: ${minute?.abs() ?? ""} мин.",
-      style: TextStyle(color: Colors.red.shade300),
+      style: TextStyle(color: CupertinoColors.systemRed.withAlpha(100)),
     );
   }
 }
