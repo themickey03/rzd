@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   collection: 1.19.1
+  go_router: ^17.0.1
+  provider: ^6.1.5+1
 
   dio: ^5.9.0
   cupertino_icons: ^1.0.8

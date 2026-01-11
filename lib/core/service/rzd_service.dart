@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:rzd/dto/destination.dart';
-import 'package:rzd/dto/schedule/request.dart';
-import 'package:rzd/dto/schedule/response.dart';
-import 'package:rzd/dto/train.dart';
+
+import '../dto/destination.dart';
+import '../dto/schedule/request.dart';
+import '../dto/schedule/response.dart';
+import '../dto/train.dart';
 
 class RzdService {
 

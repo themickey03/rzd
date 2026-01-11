@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rzd/dto/train.dart';
+import 'package:rzd/core/dto/train.dart';
 
-class Item extends StatefulWidget {
+class TrainStationItem extends StatefulWidget {
   final Train train;
 
-  const Item({required this.train, super.key});
+  const TrainStationItem({required this.train, super.key});
 
   @override
-  State<Item> createState() => _ItemState();
+  State<TrainStationItem> createState() => _TrainStationItemState();
 }
 
-class _ItemState extends State<Item> {
+class _TrainStationItemState extends State<TrainStationItem> {
   @override
   Widget build(BuildContext context) {
     int? arrivalDelay = widget.train.arrivalDelayMinutes;
