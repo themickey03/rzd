@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rzd/core/dto/train.dart';
 import 'package:rzd/core/extension/external_builder.dart';
@@ -32,6 +33,8 @@ class TrainDetailsPageState extends State<TrainDetailsPage> with ExternalBuilder
   List<Train> dataNow = [];
 
   bool get showEmptyPage => widget.trainNumber == null || widget.trainDate == null;
+
+  CupertinoTabController controller = CupertinoTabController(initialIndex: 1);
 
   @override
   void initState() {

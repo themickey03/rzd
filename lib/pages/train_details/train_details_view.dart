@@ -11,39 +11,58 @@ class TrainDetailsView extends ExternalWidget {
 }
 
 extension _View on TrainDetailsPageState {
+
   Widget build(BuildContext context) {
 
+    Widget child;
     if (showEmptyPage) {
-      return Text("Не указаны номер поезда или дата поездки");
-    }
-
-    if (dataPast.isEmpty && dataNow.isEmpty) {
-      return Center(child: SizedBox(height: 40, width: 40, child: CupertinoActivityIndicator()));
-    }
-
-    return CustomScrollView(
-      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      slivers: [
-        CupertinoSliverNavigationBar(
-          largeTitle: Container(),
+      child = Column(
+        crossAxisAlignment: .center,
+        children: [
+          SizedBox(height: 4),
+          Center(child: Text("Ошибка", style: TextStyle(fontSize: 20, color: CupertinoColors.destructiveRed))),
+          Center(child: Text("Не указаны номер поезда или дата поездки"))
+        ],
+      );
+    } else if (dataPast.isEmpty && dataNow.isEmpty) {
+      child = Center(child: SizedBox(height: 40, width: 40, child: CupertinoActivityIndicator(color: CupertinoColors.black)));
+    } else {
+      child = CupertinoTabScaffold(
+        controller: controller,
+        backgroundColor: CupertinoColors.lightBackgroundGray,
+        tabBar: CupertinoTabBar(
+          onTap: (i) => controller,
+          items: [
+            BottomNavigationBarItem(
+              key: Key("history"),
+              icon: Icon(CupertinoIcons.gobackward),
+              label: "История"
+            ),
+            BottomNavigationBarItem(
+              key: Key("live"),
+              icon: Icon(CupertinoIcons.play_fill),
+              label: "В пути"
+            ),
+          ]
         ),
-        CupertinoSliverRefreshControl(onRefresh: getData),
-        SliverList.list(
-            children: [
+        tabBuilder: (ctx, i) {
+          List list = (i == 0 ? dataPast : dataNow);
+          if (list.length == 0) {
+            return Center(
+              child: Column(
+                crossAxisAlignment: .center,
+                children: [
+                  SizedBox(height: 4),
+                  Text("Нет данных")
+                ],
+              ),
+            );
+          }
+          return ListView(children: list.map((e) => TrainStationItem(train: e)).toList());
+        }
+      );
+    }
 
-              CustomAccordion(
-                title: "История",
-                widgetItems: Column(children: dataPast.map((e) => TrainStationItem(train: e)).toList()),
-              ),
-              CustomAccordion(
-                title: "В пути",
-                showContent: true,
-                backgroundColor: CupertinoColors.white.withAlpha(100),
-                widgetItems: Column(children: dataNow.map((e) => TrainStationItem(train: e)).toList()),
-              ),
-            ]
-        )
-      ],
-    );
+    return CupertinoPageScaffold(navigationBar: CupertinoNavigationBar(), child: child);
   }
 }

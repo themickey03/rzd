@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'package:rzd/core/service/localization_service.dart';
 import 'package:rzd/core/service/rzd_service.dart';
@@ -25,15 +26,24 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
-      builder: (BuildContext context, GoRouterState state) => const HomePage(),
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return CupertinoPage(
+          title: "title".i18n(),
+          child: HomePage()
+        );
+      },
       routes: <RouteBase>[
         GoRoute(
           path: 'details',
-          builder: (BuildContext context, GoRouterState state) {
+          caseSensitive: false,
+          pageBuilder: (BuildContext context, GoRouterState state) {
             Map<String, String> params = state.uri.queryParameters;
-            return TrainDetailsPage(
-              trainDate: params["date"],
-              trainNumber: params["train"]
+            return CupertinoPage(
+              title: params["train"],
+              child: TrainDetailsPage(
+                trainDate: params["date"],
+                trainNumber: params["train"],
+              )
             );
           },
         ),
@@ -52,8 +62,15 @@ class MyApp extends StatelessWidget {
     return CupertinoApp.router(
       key: Key("app_with_${context.watch<LocalizationService>().currentLocale}"),
       theme: CupertinoThemeData(
-        barBackgroundColor: CupertinoColors.inactiveGray,
-        scaffoldBackgroundColor: CupertinoColors.white
+        barBackgroundColor: CupertinoColors.white,
+        scaffoldBackgroundColor: CupertinoColors.white,
+        textTheme: CupertinoTextThemeData(
+          primaryColor: CupertinoColors.black,
+          textStyle: CupertinoTextThemeData().textStyle.copyWith(color: CupertinoColors.black),
+          navLargeTitleTextStyle: CupertinoTextThemeData().navLargeTitleTextStyle.copyWith(color: CupertinoColors.black),
+          tabLabelTextStyle: CupertinoTextThemeData().tabLabelTextStyle.copyWith(color: CupertinoColors.black),
+          navTitleTextStyle: CupertinoTextThemeData().navTitleTextStyle.copyWith(color: CupertinoColors.black),
+        )
       ),
       localizationsDelegates: localizationService.availableDelegates,
       supportedLocales: localizationService.availableLocales,
