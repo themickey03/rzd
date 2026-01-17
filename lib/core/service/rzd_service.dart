@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:web/web.dart' as web;
 
 import '../dto/destination.dart';
 import '../dto/schedule/request.dart';
@@ -8,7 +9,7 @@ import '../dto/train.dart';
 class RzdService {
 
   Dio dio = Dio();
-  String baseUrl = "https://www.rzd.ru";
+  String baseUrl = "${web.window.location.toString()}api";
 
   RzdService();
 

@@ -29,6 +29,7 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
 
   List<SearchFieldListItem<Destination>> suggestions = [];
   DateTime dateOfArrival = DateTime.now();
+  bool departure = true;
 
   List<ScheduleResponse> response = [];
 
@@ -39,14 +40,12 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
   }
 
   onDetartureTownTap(SearchFieldListItem<Destination> item) {
-    print("!!! HERE: $item");
     setState(() {
       departureTown = item;
     });
   }
 
   onArrivalTownTap(SearchFieldListItem<Destination> item) {
-    print("!!! HERE: $item");
     setState(() {
       arrivalTown = item;
     });
@@ -64,15 +63,30 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
     suggestions.addAll(mapped);
     return mapped;
   }
+  
+  void onDateChanged(DateTime date) {
+    if (mounted) {
+      setState(() {
+        dateOfArrival = date;
+      });
+    }
+  }
+
+  void onDepartureChanged(bool? state) {
+    if (mounted) {
+      setState(() {
+        departure = state == true;
+      });
+    }
+  }
 
   void getData() {
-    print(departureTown?.item);
-    print(arrivalTown?.item);
-    if  (departureTown?.item?.id == null || arrivalTown?.item?.id == null) {
+    if (departureTown?.item?.id == null || arrivalTown?.item?.id == null) {
       return;
     }
     rzdService.getTrains(request: ScheduleRequest(
-      date: "12.01.2026",
+      departure: departure,
+      date: ScheduleRequest.dateToText(date: dateOfArrival),
       departureId: departureTown!.item!.id, 
       arrivalId: arrivalTown!.item!.id
     )).listen((e) {
