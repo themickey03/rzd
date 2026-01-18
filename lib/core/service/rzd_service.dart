@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import
-  'web_empty.dart' if (dart.js_interop)
-  'package:web/web.dart' as web;
+import 'package:web/web.dart' as web;
 
 import '../dto/destination.dart';
 import '../dto/schedule/request.dart';
@@ -14,7 +12,8 @@ class RzdService {
   Dio dio = Dio();
   String get baseUrl {
     if (kIsWeb) {
-      return "${web.window.location.origin.toString()}api";
+      String url = "${web.window.location.origin.toString()}/api";
+      return url;
     }
 
     return "https://koralex.fun/api";
