@@ -16,7 +16,18 @@ class HomeView extends ExternalWidget {
 extension _View on HomePageState {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(),
+      navigationBar: CupertinoNavigationBar(
+        trailing: Material(
+          child: InkWell(
+            onTap: () => context.go("/history"),
+            child: Icon(
+              CupertinoIcons.restart,
+              color: CupertinoColors.darkBackgroundGray,
+              size: 20
+            ),
+          ),
+        ),
+      ),
       child: Material(
         child: ListView(
           children: [
@@ -24,7 +35,7 @@ extension _View on HomePageState {
               key: Key("departureSearhField"),
               hint: 'Станция отправления',
               maxSuggestionBoxHeight: 300,
-              onSuggestionTap: onDetartureTownTap,
+              onSuggestionTap: onDepartureTownTap,
               onSearchTextChanged: search,
               selectedValue: departureTown,
               suggestions: suggestions ?? [],
@@ -81,7 +92,9 @@ extension _View on HomePageState {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: response.map((e) => GestureDetector(
-                  onTap: () => context.go("/details?train=${e.numberLatin}&date=2026-01-12"),
+                  onTap: () {
+                    context.go("/details?train=${e.numberLatin}&date=2026-01-12");
+                  },
                   child: Column(
                     children: [
                       Text(e.numberRus),

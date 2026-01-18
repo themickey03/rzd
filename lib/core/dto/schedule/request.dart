@@ -24,11 +24,33 @@ class ScheduleRequest {
     required this.arrivalId,
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ScheduleRequest &&
+          runtimeType == other.runtimeType &&
+          departure == other.departure &&
+          date == other.date &&
+          departureId == other.departureId &&
+          arrivalId == other.arrivalId;
+
+  @override
+  int get hashCode => Object.hash(departure, date, departureId, arrivalId);
+
   static dateToText({required DateTime date}) => DateFormat("dd.MM.yyyy").format(date);
 
   @override
   String toString() {
     return 'ScheduleRequest{departure: $departure, date: $date, departureId: $departureId, arrivalId: $arrivalId, }';
+  }
+
+  factory ScheduleRequest.fromJson(Map<String, dynamic> raw) {
+    return ScheduleRequest(
+      departure: raw["departure"],
+      date: raw["date"],
+      departureId: raw["stationDepartureId"] ?? raw["departureId"],
+      arrivalId: raw["stationArrivalId"] ?? raw["arrivalId"],
+    );
   }
 
   Map<String, dynamic> toJson() {

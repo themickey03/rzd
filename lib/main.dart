@@ -3,19 +3,26 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
+import 'package:rzd/core/service/history_service.dart';
 import 'package:rzd/core/service/localization_service.dart';
 import 'package:rzd/core/service/rzd_service.dart';
 import 'package:rzd/core/localization/localization.dart';
+import 'package:rzd/core/service/storage_service.dart';
+import 'package:rzd/pages/history/history_page.dart';
 import 'package:rzd/pages/home/home_page.dart';
 import 'package:rzd/pages/train_details/train_details_page.dart';
 
-void main() {
+void main() async {
   usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  StorageService storageService = StorageService();
   runApp(
     MultiProvider(
       providers: [
         Provider<RzdService>(create: (_) => RzdService()),
-        ChangeNotifierProvider<LocalizationService>(create: (_) => LocalizationService())
+        ChangeNotifierProvider<LocalizationService>(create: (_) => LocalizationService()),
+        Provider<StorageService>(create: (_) => storageService),
+        Provider<HistoryService>(create: (_) => HistoryService(storageService: storageService)),
       ],
       child: MyApp(),
     )
@@ -44,6 +51,16 @@ final GoRouter _router = GoRouter(
                 trainDate: params["date"],
                 trainNumber: params["train"],
               )
+            );
+          },
+        ),
+        GoRoute(
+          path: 'history',
+          caseSensitive: false,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return CupertinoPage(
+              title: "history".i18n(),
+              child: HistoryPage()
             );
           },
         ),

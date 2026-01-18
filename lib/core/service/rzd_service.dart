@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:web/web.dart' as web;
+import 'package:flutter/foundation.dart';
+import
+  'web_empty.dart' if (dart.js_interop)
+  'package:web/web.dart' as web;
 
 import '../dto/destination.dart';
 import '../dto/schedule/request.dart';
@@ -9,9 +12,19 @@ import '../dto/train.dart';
 class RzdService {
 
   Dio dio = Dio();
-  String baseUrl = "${web.window.location.toString()}api";
+  String get baseUrl {
+    if (kIsWeb) {
+      return "${web.window.location.origin.toString()}api";
+    }
 
-  RzdService();
+    return "https://koralex.fun/api";
+  }
+
+  RzdService() {
+    if (kDebugMode || kProfileMode) {
+      dio.interceptors.add(LogInterceptor());
+    }
+  }
 
   Stream<List<Train>> getTrainData({required String station, required String date}) {
     return dio.get("$baseUrl/routemap/source/current/train/$station/departure/$date?useTimeZone=true")

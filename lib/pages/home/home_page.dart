@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:rzd/core/dto/destination.dart';
 import 'package:rzd/core/dto/schedule/request.dart';
+import 'package:rzd/core/dto/schedule/request_history.dart';
 import 'package:rzd/core/dto/schedule/response.dart';
 import 'package:rzd/core/extension/external_builder.dart';
+import 'package:rzd/core/service/history_service.dart';
 import 'package:rzd/core/service/rzd_service.dart';
 import 'package:rzd/pages/home/home_view.dart';
 import 'package:searchfield/searchfield.dart';
@@ -23,6 +25,7 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
   ExternalWidget get view => HomeView();
 
   late RzdService rzdService;
+  late HistoryService historyService;
 
   SearchFieldListItem<Destination>? departureTown;
   SearchFieldListItem<Destination>? arrivalTown;
@@ -37,9 +40,10 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
   void initState() {
     super.initState();
     rzdService = context.read<RzdService>();
+    historyService = context.read<HistoryService>();
   }
 
-  onDetartureTownTap(SearchFieldListItem<Destination> item) {
+  onDepartureTownTap(SearchFieldListItem<Destination> item) {
     setState(() {
       departureTown = item;
     });
@@ -84,14 +88,20 @@ class HomePageState extends State<HomePage> with ExternalBuilder {
     if (departureTown?.item?.id == null || arrivalTown?.item?.id == null) {
       return;
     }
-    rzdService.getTrains(request: ScheduleRequest(
+    ScheduleRequest request = ScheduleRequest(
       departure: departure,
       date: ScheduleRequest.dateToText(date: dateOfArrival),
-      departureId: departureTown!.item!.id, 
+      departureId: departureTown!.item!.id,
       arrivalId: arrivalTown!.item!.id
-    )).listen((e) {
+    );
+    rzdService.getTrains(request: request).listen((e) {
       setState(() {
         response = e;
+        historyService.addToHistory(request: ScheduleRequestHistory.fromJson({
+          ...request.toJson(),
+          "arrivalName":  arrivalTown!.item!.name,
+          "departureName":  departureTown!.item!.name,
+        }));
       });
     });
   }
