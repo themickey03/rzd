@@ -2,9 +2,11 @@ import 'package:cupertino_calendar_picker/cupertino_calendar_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:rzd/core/dto/destination.dart';
 import 'package:rzd/core/dto/schedule/request.dart';
 import 'package:rzd/core/extension/external_builder.dart';
+import 'package:rzd/core/utils/utils.dart';
 import 'package:rzd/pages/home/home_page.dart';
 import 'package:searchfield/searchfield.dart';
 
@@ -93,7 +95,7 @@ extension _View on HomePageState {
                 shrinkWrap: true,
                 children: response.map((e) => GestureDetector(
                   onTap: () {
-                    context.go("/details?train=${e.numberLatin}&date=2026-01-12");
+                    context.go("/details?train=${e.numberLatin}&date=${Utils.convertResponseDate(e: e, departure: departure)}");
                   },
                   child: Column(
                     children: [

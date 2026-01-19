@@ -14,9 +14,26 @@ class ScheduleRequestHistory extends ScheduleRequest {
     super.departure,
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is ScheduleRequestHistory &&
+          runtimeType == other.runtimeType &&
+          arrivalName == other.arrivalName &&
+          departureName == other.departureName;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, arrivalName, departureName);
+
+  @override
+  String toString() {
+    return 'ScheduleRequestHistory{${super.toString()}, arrivalName: $arrivalName, departureName: $departureName}';
+  }
+
   factory ScheduleRequestHistory.fromJson(Map<String, dynamic> raw) {
     ScheduleRequest request = ScheduleRequest.fromJson(raw);
-    return ScheduleRequestHistory(
+    ScheduleRequestHistory e = ScheduleRequestHistory(
       date: request.date,
       departureId: request.departureId,
       arrivalId: request.arrivalId,
@@ -24,13 +41,15 @@ class ScheduleRequestHistory extends ScheduleRequest {
       arrivalName: raw["arrivalName"] ?? "",
       departureName: raw["departureName"] ?? "",
     );
+    return e;
   }
 
-  Map<String, dynamic> toJsonHistory(ScheduleRequestHistory request) {
+  @override
+  Map<String, dynamic> toJson() {
     return {
-      ...(request as ScheduleRequest).toJson(),
-      "arrivalName": request.arrivalName,
-      "departureName": request.departureName,
+      ...super.toJson(),
+      "arrivalName": arrivalName,
+      "departureName": departureName,
     };
   }
 

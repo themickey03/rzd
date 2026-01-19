@@ -11,7 +11,7 @@ class RzdService {
 
   Dio dio = Dio();
   String get baseUrl {
-    if (kIsWeb) {
+    if (kIsWeb && !kDebugMode && !kProfileMode) {
       String url = "${web.window.location.origin.toString()}/api";
       return url;
     }

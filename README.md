@@ -1,16 +1,24 @@
-# rzd
+## Фактическое движения поездов РЖД
 
-A new Flutter project.
+Актуальное состояние проекта: https://koralex.fun
 
-## Getting Started
+### Задачи: 
 
-This project is a starting point for a Flutter application.
+  * Искать маршруты поездов исходя из станций и времени отправления
+  * Отображать движение поезда
+  * Запоминать поиски пользователя для удобного возврата к найденному поезду
 
-A few resources to get you started if this is your first Flutter project:
+### Преимущества относительно РЖД:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  * данные о поезде вшиты в URL (в веб-версии), что позволяет обновлением страницы получить новую информацию.
+  * Хранение последних поисков, чтобы не вводить данные при каждом входе
+  * Отстутствует малоинформативная карта, тем самым уменьшает информацию загружаемую из интернета (удобно при плохом интернете)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### TODO:
+
+  * Полный редизайн, сейчас Proof Of Concept
+  * Pull to Refresh в информации о движении
+  * Отображение сетевых ошибок для пользователя
+  * Отображение отсутствия данных при пустых ответах от API
+  * переход из истории запросов в страницу поиска с подстановкой данных из истории
+

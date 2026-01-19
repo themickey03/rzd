@@ -60,6 +60,8 @@ class HistoryService {
   }
 
   void _setData(List<ScheduleRequestHistory> data) {
-    _storageService[_historyKey] = jsonEncode(data.map((e) => e.toJson()).toList());
+    _storageService[_historyKey] = jsonEncode(data.map((e) {
+      return e.toJson();
+    }).toList());
   }
 }

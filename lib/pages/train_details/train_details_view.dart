@@ -1,4 +1,3 @@
-import 'package:custom_accordion/custom_accordion.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rzd/core/extension/external_builder.dart';
 import 'package:rzd/pages/train_details/train_details_page.dart';

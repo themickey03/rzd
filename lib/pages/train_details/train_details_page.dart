@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rzd/core/dto/train.dart';
 import 'package:rzd/core/extension/external_builder.dart';

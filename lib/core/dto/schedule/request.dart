@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 /// Запрос поездов
 ///
 /// [departure] - [date] отправления или прибытия, отправление - true
@@ -37,11 +35,9 @@ class ScheduleRequest {
   @override
   int get hashCode => Object.hash(departure, date, departureId, arrivalId);
 
-  static dateToText({required DateTime date}) => DateFormat("dd.MM.yyyy").format(date);
-
   @override
   String toString() {
-    return 'ScheduleRequest{departure: $departure, date: $date, departureId: $departureId, arrivalId: $arrivalId, }';
+    return 'ScheduleRequest{departure: $departure, date: $date, departureId: $departureId, arrivalId: $arrivalId}';
   }
 
   factory ScheduleRequest.fromJson(Map<String, dynamic> raw) {

@@ -38,9 +38,7 @@ class HistoryPageState extends State<HistoryPage> with ExternalBuilder {
 
   void clearHistory() {
     historyService.clearHistory();
-    if (mounted) {
-      setState(() {});
-    }
+    loadData();
   }
 
   void removeItem(ScheduleRequestHistory request) {
